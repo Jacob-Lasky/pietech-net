@@ -3,3 +3,6 @@ node_modules/
 .vscode/
 .idea/
 *.log
+
+# Build artifact for Cloudflare Pages deploys (created by .github/workflows/deploy.yml)
+dist/

@@ -2,6 +2,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import worker from './_worker.js';
 
+const WORLD_NAMES_ORIGIN = 'https://world-names-98k.pages.dev';
+
 const landingAssets = {
   fetch: async (req) => new Response(`LANDING:${new URL(req.url).pathname}`, { status: 200 }),
 };
@@ -9,7 +11,12 @@ const landingAssets = {
 function withMockedUpstream(handler, body) {
   return async () => {
     const realFetch = globalThis.fetch;
-    globalThis.fetch = handler;
+    globalThis.fetch = (input, init) => {
+      const url = typeof input === 'string' ? input : input.url;
+      // Verify the worker is actually targeting the configured upstream.
+      assert.ok(url.startsWith(WORLD_NAMES_ORIGIN), `expected upstream ${WORLD_NAMES_ORIGIN}, got ${url}`);
+      return handler(input, init);
+    };
     try {
       return await body();
     } finally {

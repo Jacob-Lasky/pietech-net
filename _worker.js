@@ -10,7 +10,10 @@
  * auto-serving static files; the worker must call ASSETS explicitly.
  */
 
-const WORLD_NAMES_ORIGIN = 'https://world-names.pages.dev';
+// The Pages project name "world-names" was taken globally on the *.pages.dev
+// namespace, so the project deploys to world-names-98k.pages.dev. The user-
+// facing URL stays pietech.net/world-names/.
+const WORLD_NAMES_ORIGIN = 'https://world-names-98k.pages.dev';
 
 export default {
   async fetch(request, env) {
