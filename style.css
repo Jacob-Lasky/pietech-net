@@ -1,0 +1,98 @@
+:root {
+  color-scheme: dark light;
+  --bg: #0f1115;
+  --fg: #e8e8e8;
+  --muted: #9aa0a6;
+  --accent: #ffb86b;
+  --rule: #2a2d33;
+  --max-width: 42rem;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #fafaf7;
+    --fg: #1a1a1a;
+    --muted: #5a5a5a;
+    --accent: #b8632a;
+    --rule: #e3e2dd;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--fg); }
+
+body {
+  font-family: ui-serif, Georgia, "Iowan Old Style", "Apple Garamond", serif;
+  font-size: 18px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+main {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 4rem 1.5rem 2rem;
+}
+
+header h1 {
+  font-family: ui-monospace, "JetBrains Mono", "Menlo", monospace;
+  font-size: 2.5rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.25rem;
+  color: var(--accent);
+}
+
+header .tagline { color: var(--muted); margin: 0 0 3rem; }
+
+.projects h2 {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  font-family: ui-monospace, "JetBrains Mono", "Menlo", monospace;
+  font-weight: 500;
+}
+
+.projects ul { list-style: none; padding: 0; margin: 0; }
+
+.projects li { margin: 1rem 0; }
+
+.projects a {
+  display: block;
+  padding: 1rem;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 120ms ease, transform 120ms ease;
+}
+
+.projects a:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.projects .title {
+  display: block;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+}
+
+.projects .blurb { color: var(--muted); font-size: 0.95rem; }
+
+footer {
+  margin-top: 6rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+footer a { color: var(--muted); }
+footer a:hover { color: var(--accent); }
