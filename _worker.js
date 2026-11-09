@@ -1,13 +1,10 @@
 /**
  * Cloudflare Pages Function — fronts every request to pietech.net.
  *
- * Routes /world-names/* to the world-names Pages project, everything else to
- * the static assets of this (landing) project. Without this _worker.js, Pages
- * would auto-serve the landing only, and there'd be no way to mount sibling
- * projects under the same domain.
- *
- * DO NOT remove env.ASSETS.fetch — once _worker.js is present, Pages stops
- * auto-serving static files; the worker must call ASSETS explicitly.
+ * Keep /world-names and its descendants on the sibling Pages project.
+ * Every other path permanently redirects to Jacob’s website.
+ * DO NOT redirect sibling paths: their public asset URLs use this prefix.
+ * No ASSETS fallback is needed because the old landing site is retired.
  */
 
 // The Pages project name "world-names" was taken globally on the *.pages.dev
@@ -16,7 +13,7 @@
 const WORLD_NAMES_ORIGIN = 'https://world-names-98k.pages.dev';
 
 export default {
-  async fetch(request, env) {
+  async fetch(request) {
     const url = new URL(request.url);
 
     if (url.pathname === '/world-names' || url.pathname.startsWith('/world-names/')) {
@@ -25,11 +22,12 @@ export default {
       // that repo writes asset URLs back with the /world-names/ prefix so the
       // user-facing URL stays clean.
       const stripped = url.pathname.replace(/^\/world-names\/?/, '/');
-      const upstream = new URL(stripped + url.search, WORLD_NAMES_ORIGIN);
+      const upstream = new URL(WORLD_NAMES_ORIGIN);
+      upstream.pathname = stripped;
+      upstream.search = url.search;
       return fetch(new Request(upstream, request));
     }
 
-    // Landing page + static assets from this Pages project.
-    return env.ASSETS.fetch(request);
+    return Response.redirect('https://www.jacoblasky.com/', 301);
   },
 };
