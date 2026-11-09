@@ -22,8 +22,12 @@ A basic static server cannot exercise the worker.
 ## Deploy
 
 Pushes to `main` run tests and directly upload `dist/` to the `pietech-net`
-Cloudflare Pages project. Both hostnames must be registered as Pages custom
-domains, with DNS pointing at `pietech-net.pages.dev`.
+Cloudflare Pages project. Before uploading, the workflow attaches
+`www.pietech.net` to that project as a custom domain via the Cloudflare API if it
+isn't already attached — the step is idempotent, so it's a no-op on later runs,
+and it needs `CLOUDFLARE_API_TOKEN` to carry Pages edit permission. The apex
+`pietech.net` domain is not managed by the workflow. DNS for both hostnames must
+point at `pietech-net.pages.dev`.
 
 To roll back the source, restore the pre-change tag’s files on a new branch,
 review, and merge through the same workflow. The added `www` custom domain can
